@@ -36,6 +36,9 @@ jobs:
         NEXT_PUBLIC_WIX_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_WIX_CLIENT_ID }}
         NEXT_PUBLIC_WIX_SITE_ID: ${{ secrets.NEXT_PUBLIC_WIX_SITE_ID }}
 
+    - name: List build output
+      run: ls -la out/
+
     - name: Setup Pages
       uses: actions/configure-pages@v3
 
