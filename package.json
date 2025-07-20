@@ -11,25 +11,33 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@wix/sdk": "^1.0.0",
     "@wix/members": "^1.0.0",
+    "@wix/sdk": "^1.0.0",
+    "js-cookie": "^3.0.5",
     "next": "^14.0.0",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "js-cookie": "^3.0.5"
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "typescript": "^5.0.0",
+    "autoprefixer": "^10.4.0",
     "eslint": "^8.0.0",
     "eslint-config-next": "^14.0.0",
+    "postcss": "^8.4.0",
     "tailwindcss": "^3.3.0",
-    "autoprefixer": "^10.4.0",
-    "postcss": "^8.4.0"
+    "typescript": "^5.0.0"
   },
-  "keywords": ["wix", "studio", "headless", "authentication", "react", "nextjs"],
+  "keywords": [
+    "wix",
+    "studio",
+    "headless",
+    "authentication",
+    "react",
+    "nextjs"
+  ],
   "author": "Your Name",
   "license": "MIT"
-} 
+}
