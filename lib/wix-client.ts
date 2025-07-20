@@ -50,8 +50,6 @@ export const login = async () => {
 // Logout function
 export const logout = async () => {
   try {
-    const wixClient = createWixClient();
-    await wixClient.members.logout();
     Cookies.remove('session');
     localStorage.removeItem('wixOAuthData'); // Clean up OAuth data
     window.location.href = '/';
