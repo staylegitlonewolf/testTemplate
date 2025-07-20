@@ -78,6 +78,11 @@ export default function HomePage() {
         </div>
       </nav>
 
+      {/* Production Indicator */}
+      <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 text-center">
+        <p className="font-medium">🚀 Production Version - Authentication Working!</p>
+      </div>
+
       {/* Hero Section */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
