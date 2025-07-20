@@ -1,21 +1,21 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getCurrentUser, login, logout } from '@/lib/wix-client';
+import { createWixClient, getCurrentUser, login, logout } from '@/lib/wix-client';
 
-export default function Home() {
+export default function HomePage() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [debug, setDebug] = useState<any>({});
+  const [debugInfo, setDebugInfo] = useState<any>({});
 
   useEffect(() => {
     checkUser();
-    // Add debug information
-    setDebug({
+    // Add debug info
+    setDebugInfo({
       clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID,
       siteId: process.env.NEXT_PUBLIC_WIX_SITE_ID,
-      origin: typeof window !== 'undefined' ? window.location.origin : 'server',
-      userAgent: typeof window !== 'undefined' ? window.navigator.userAgent : 'server'
+      userAgent: navigator.userAgent,
+      timestamp: new Date().toISOString()
     });
   }, []);
 
@@ -31,7 +31,6 @@ export default function Home() {
   };
 
   const handleLogin = async () => {
-    console.log('Login button clicked');
     await login();
   };
 
@@ -40,77 +39,225 @@ export default function Home() {
     setUser(null);
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-      </div>
-    );
-  }
-
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">
-          Welcome to Wix Studio Headless Auth Demo
-        </h1>
-        
-        {/* Debug Information */}
-        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-6">
-          <h3 className="font-bold">Debug Info:</h3>
-          <pre className="text-xs mt-2">
-            {JSON.stringify(debug, null, 2)}
-          </pre>
-        </div>
-        
-        {user ? (
-          <div className="bg-white shadow rounded-lg p-6">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              Welcome back, {user.profile?.firstName || user.profile?.email || 'User'}!
-            </h2>
-            
-            <div className="bg-gray-50 rounded-lg p-4 mb-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">User Profile</h3>
-              <div className="text-sm text-gray-600">
-                <p><strong>Email:</strong> {user.profile?.email}</p>
-                <p><strong>First Name:</strong> {user.profile?.firstName || 'Not provided'}</p>
-                <p><strong>Last Name:</strong> {user.profile?.lastName || 'Not provided'}</p>
-                <p><strong>Member ID:</strong> {user._id}</p>
-                <p><strong>Status:</strong> {user.status}</p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      {/* Navigation */}
+      <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  WixAuth Demo
+                </h1>
               </div>
             </div>
-            
-            <button
-              onClick={handleLogout}
-              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-            >
-              Logout
-            </button>
-          </div>
-        ) : (
-          <div className="bg-white shadow rounded-lg p-6">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              Get Started with Authentication
-            </h2>
-            <p className="text-gray-600 mb-6">
-              This demo shows how to implement OAuth authentication with Wix Studio Headless.
-              Click the button below to sign in or create an account.
-            </p>
-            
-            <button
-              onClick={handleLogin}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-150 ease-in-out text-lg"
-            >
-              Sign In / Sign Up
-            </button>
-            
-            <div className="mt-8 text-sm text-gray-500">
-              <p>This will redirect you to Wix for authentication.</p>
-              <p>After authentication, you'll be redirected back to this page.</p>
+            <div className="flex items-center space-x-4">
+              {user ? (
+                <div className="flex items-center space-x-4">
+                  <div className="text-sm text-gray-700">
+                    Welcome, {user.profile?.firstName || user.profile?.email || 'User'}!
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={handleLogin}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors duration-200 font-medium"
+                >
+                  Sign In
+                </button>
+              )}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="mb-8">
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+              Welcome to{' '}
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                WixAuth Demo
+              </span>
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Experience seamless authentication with Wix Studio Headless. 
+              Built with Next.js, TypeScript, and Tailwind CSS for a modern web experience.
+            </p>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            {!user ? (
+              <button
+                onClick={handleLogin}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+              >
+                Get Started - Sign In
+              </button>
+            ) : (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-6 max-w-md">
+                <h3 className="text-lg font-semibold text-green-800 mb-2">✅ Successfully Authenticated!</h3>
+                <p className="text-green-700 text-sm">
+                  You're now logged in with Wix authentication.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Built with Modern Technologies
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              This demo showcases the power of Wix Studio Headless with cutting-edge web technologies.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-xl">
+              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Secure Authentication</h3>
+              <p className="text-gray-600">
+                OAuth 2.0 with PKCE authentication powered by Wix Studio Headless for enterprise-grade security.
+              </p>
+            </div>
+            
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-8 rounded-xl">
+              <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Modern Stack</h3>
+              <p className="text-gray-600">
+                Built with Next.js 14, TypeScript, and Tailwind CSS for optimal performance and developer experience.
+              </p>
+            </div>
+            
+            <div className="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-xl">
+              <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Production Ready</h3>
+              <p className="text-gray-600">
+                Deployed on GitHub Pages with automated CI/CD pipeline for seamless updates and maintenance.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* User Profile Section (if logged in) */}
+      {user && (
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white rounded-xl shadow-lg p-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Your Profile</h2>
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">User Information</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Name:</span>
+                      <p className="text-gray-900">
+                        {user.profile?.firstName} {user.profile?.lastName || 'Not provided'}
+                      </p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Email:</span>
+                      <p className="text-gray-900">{user.profile?.email || 'Not provided'}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Member ID:</span>
+                      <p className="text-gray-900 font-mono text-sm">{user.id}</p>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Account Status</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                      <span className="text-gray-900">Active Member</span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
+                      <span className="text-gray-900">OAuth Authenticated</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Debug Information (Development) */}
+      <section className="py-10 px-4 sm:px-6 lg:px-8 bg-gray-100">
+        <div className="max-w-4xl mx-auto">
+          <details className="bg-white rounded-lg shadow p-6">
+            <summary className="text-lg font-semibold text-gray-900 cursor-pointer">
+              🔧 Debug Information (Development)
+            </summary>
+            <div className="mt-4 space-y-2">
+              <div>
+                <span className="text-sm font-medium text-gray-500">Client ID:</span>
+                <p className="text-gray-900 font-mono text-sm">{debugInfo.clientId || 'Not set'}</p>
+              </div>
+              <div>
+                <span className="text-sm font-medium text-gray-500">Site ID:</span>
+                <p className="text-gray-900 font-mono text-sm">{debugInfo.siteId || 'Not set'}</p>
+              </div>
+              <div>
+                <span className="text-sm font-medium text-gray-500">User Agent:</span>
+                <p className="text-gray-900 font-mono text-xs break-all">{debugInfo.userAgent}</p>
+              </div>
+              <div>
+                <span className="text-sm font-medium text-gray-500">Timestamp:</span>
+                <p className="text-gray-900 font-mono text-sm">{debugInfo.timestamp}</p>
+              </div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <h3 className="text-2xl font-bold mb-4">WixAuth Demo</h3>
+          <p className="text-gray-400 mb-6">
+            A demonstration of Wix Studio Headless authentication with modern web technologies.
+          </p>
+          <div className="flex justify-center space-x-6 text-sm text-gray-400">
+            <span>Next.js 14</span>
+            <span>•</span>
+            <span>TypeScript</span>
+            <span>•</span>
+            <span>Tailwind CSS</span>
+            <span>•</span>
+            <span>Wix SDK</span>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 } 
