@@ -13,20 +13,21 @@ export default function AuthCallback() {
 
   const handleCallback = async () => {
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get('code');
-      const error = urlParams.get('error');
-
-      if (error) {
-        setStatus(`Authentication error: ${error}`);
+      const wixClient = createWixClient();
+      
+      // Parse the callback URL to get code, state, and any errors
+      const returnedOAuthData = wixClient.auth.parseFromUrl();
+      
+      if (returnedOAuthData.error) {
+        setStatus(`Authentication error: ${returnedOAuthData.errorDescription || returnedOAuthData.error}`);
         setTimeout(() => {
           window.location.href = '/';
         }, 3000);
         return;
       }
 
-      if (!code) {
-        setStatus('No authorization code received');
+      if (!returnedOAuthData.code || !returnedOAuthData.state) {
+        setStatus('No authorization code or state received');
         setTimeout(() => {
           window.location.href = '/';
         }, 3000);
@@ -35,11 +36,30 @@ export default function AuthCallback() {
 
       setStatus('Exchanging code for tokens...');
 
-      const wixClient = createWixClient();
-      const tokens = await wixClient.auth.processAuthCode(code);
+      // Retrieve the stored OAuth data from localStorage
+      const storedOAuthData = localStorage.getItem('wixOAuthData');
+      if (!storedOAuthData) {
+        setStatus('OAuth data not found. Please try logging in again.');
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 3000);
+        return;
+      }
+
+      const oAuthData = JSON.parse(storedOAuthData);
+
+      // Exchange the code for member tokens
+      const tokens = await wixClient.auth.getMemberTokens(
+        returnedOAuthData.code,
+        returnedOAuthData.state,
+        oAuthData
+      );
 
       // Store tokens in cookies
       Cookies.set('session', JSON.stringify(tokens), { expires: 7 });
+      
+      // Clean up OAuth data from localStorage
+      localStorage.removeItem('wixOAuthData');
 
       setStatus('Authentication successful! Redirecting...');
       
@@ -50,6 +70,7 @@ export default function AuthCallback() {
     } catch (error) {
       console.error('Error processing callback:', error);
       setStatus('Authentication failed. Please try again.');
+      localStorage.removeItem('wixOAuthData'); // Clean up on error
       setTimeout(() => {
         window.location.href = '/';
       }, 3000);
