@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createWixClient, getCurrentUser, login, logout } from '@/lib/wix-client';
 
+// WixAuth Platform - Production Ready Authentication System
 export default function HomePage() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
