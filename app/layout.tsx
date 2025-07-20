@@ -5,8 +5,22 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Wix Studio Headless Auth Demo',
-  description: 'A Next.js application demonstrating OAuth authentication with Wix Studio Headless',
+  title: 'WixAuth - Professional Authentication Platform',
+  description: 'Secure OAuth 2.0 authentication platform built with Next.js and Wix Studio Headless. Production-ready authentication for modern web applications.',
+  keywords: ['authentication', 'oauth', 'wix', 'nextjs', 'react', 'typescript'],
+  authors: [{ name: 'staylegitlonewolf' }],
+  creator: 'staylegitlonewolf',
+  openGraph: {
+    title: 'WixAuth - Professional Authentication Platform',
+    description: 'Secure OAuth 2.0 authentication platform built with Next.js and Wix Studio Headless',
+    type: 'website',
+    url: 'https://staylegitlonewolf.github.io/Template1/',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'WixAuth - Professional Authentication Platform',
+    description: 'Secure OAuth 2.0 authentication platform built with Next.js and Wix Studio Headless',
+  },
 }
 
 export default function RootLayout({

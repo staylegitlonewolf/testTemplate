@@ -1,7 +1,7 @@
 {
-  "name": "wix-studio-headless-auth-demo",
+  "name": "wixauth-platform",
   "version": "1.0.0",
-  "description": "Basic Wix Studio Headless authentication demo",
+  "description": "Professional authentication platform built with Next.js and Wix Studio Headless",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -31,13 +31,21 @@
     "typescript": "^5.0.0"
   },
   "keywords": [
-    "wix",
-    "studio",
-    "headless",
     "authentication",
+    "oauth",
+    "wix",
+    "nextjs",
     "react",
-    "nextjs"
+    "typescript",
+    "tailwind",
+    "production",
+    "platform"
   ],
-  "author": "Your Name",
-  "license": "MIT"
+  "author": "staylegitlonewolf",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/staylegitlonewolf/Template1.git"
+  },
+  "homepage": "https://staylegitlonewolf.github.io/Template1/"
 }

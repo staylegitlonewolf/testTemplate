@@ -48,7 +48,7 @@ export default function HomePage() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  WixAuth Demo
+                  WixAuth
                 </h1>
               </div>
             </div>
@@ -78,9 +78,9 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Production Indicator */}
-      <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 text-center">
-        <p className="font-medium">🚀 Production Version - Authentication Working!</p>
+      {/* Production Status */}
+      <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 text-center">
+        <p className="font-medium">🔐 WixAuth Platform - Secure Authentication Active</p>
       </div>
 
       {/* Hero Section */}
@@ -90,12 +90,12 @@ export default function HomePage() {
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
               Welcome to{' '}
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                WixAuth Demo
+                WixAuth
               </span>
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Experience seamless authentication with Wix Studio Headless. 
-              Built with Next.js, TypeScript, and Tailwind CSS for a modern web experience.
+              Professional authentication platform with secure OAuth 2.0 integration. 
+              Built with Next.js, TypeScript, and Tailwind CSS for enterprise-grade applications.
             </p>
           </div>
           
@@ -124,10 +124,10 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Built with Modern Technologies
+              Enterprise-Grade Features
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              This demo showcases the power of Wix Studio Headless with cutting-edge web technologies.
+              Production-ready authentication platform with enterprise security and modern web technologies.
             </p>
           </div>
           
